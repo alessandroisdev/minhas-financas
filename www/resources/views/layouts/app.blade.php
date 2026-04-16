@@ -42,7 +42,7 @@
         @endif
     </div>
 
-    <!-- Automatically initialize toasts -->
+    <!-- Automatically initialize toasts and SSE Global -->
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
             const toastElList = document.querySelectorAll('.toast');
@@ -50,6 +50,43 @@
                 const toast = new bootstrap.Toast(toastEl);
                 toast.show();
             });
+
+            // Requisita permissão do navegador para notificações WebPush (Aba minimizada)
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+
+            @auth
+            // Conecta no SSE e mantém a conexão FPM aberta orquestrando mensagens do Redis
+            const sse = new EventSource("{{ route('stream') }}");
+            sse.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    if(data.type === 'notification' || data.type === 'toast') {
+                        const container = document.querySelector('.toast-container');
+                        const bgClass = data.status === 'error' ? 'text-bg-danger' : 
+                                       (data.status === 'success' ? 'text-bg-success' : 'text-bg-primary');
+                        
+                        const toastHTML = `
+                            <div class="toast align-items-center ${bgClass} border-0 show mt-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="7000">
+                                <div class="d-flex">
+                                    <div class="toast-body fw-semibold">
+                                        ${data.message}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', toastHTML);
+
+                        if ("Notification" in window && Notification.permission === "granted") {
+                           new Notification("Minhas Finanças", { body: data.message });
+                        }
+                    }
+                } catch(e) {}
+            };
+            @endauth
         });
     </script>
 </body>

@@ -56,6 +56,23 @@ services:
     networks:
       - app-network
 
+  queue:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    container_name: queue_minhas_financas
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: php artisan queue:work redis --sleep=3 --tries=3
+    volumes:
+      - ../www:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
+
 volumes:
   dbdata:
 
