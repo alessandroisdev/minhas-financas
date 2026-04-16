@@ -1,0 +1,80 @@
+// Custom variables
+$primary: #D4AF37; // Amarelo Ouro
+$dark-bg: #0F172A; // Azul Noite Elegante
+$font-family-base: 'Outfit', sans-serif;
+
+// Import Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Custom styles for dark mode overrides
+[data-bs-theme="dark"] {
+    --bs-body-bg: #{$dark-bg};
+    --bs-body-color: #f8f9fa;
+    --bs-primary: #{$primary};
+    --bs-link-color: #{$primary};
+    --bs-link-hover-color: lighten(#{$primary}, 10%);
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--bs-body-bg);
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-radius: 1.5rem;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 450px;
+}
+
+[data-bs-theme="light"] .auth-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--bs-primary);
+}
+
+.form-control {
+    padding: 0.8rem 1rem;
+    border-radius: 0.75rem;
+}
+
+[data-bs-theme="dark"] .form-control {
+    background-color: rgba(0,0,0,0.2);
+    border-color: rgba(255,255,255,0.1);
+    color: #fff;
+}
+[data-bs-theme="dark"] .form-control:focus {
+    background-color: rgba(0,0,0,0.3);
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    color: #fff;
+}
+
+.btn-primary {
+    color: #0F172A !important;
+    font-weight: 700;
+    padding: 0.8rem;
+    border-radius: 0.75rem;
+    letter-spacing: 0.5px;
+}
