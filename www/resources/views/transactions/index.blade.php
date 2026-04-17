@@ -116,8 +116,8 @@
                   <div class="col-md-6 mb-3">
                       <label class="form-label text-muted small text-uppercase">Tipo</label>
                       <select name="type" class="form-select" required>
-                          <option value="expense">Despesa (-)</option>
-                          <option value="income">Receita (+)</option>
+                          <option value="expense" {{ request('type') == 'expense' ? 'selected' : '' }}>Despesa (-)</option>
+                          <option value="income" {{ request('type') == 'income' ? 'selected' : '' }}>Receita (+)</option>
                       </select>
                   </div>
                   <div class="col-md-6 mb-3">

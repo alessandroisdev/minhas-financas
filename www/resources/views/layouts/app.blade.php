@@ -43,13 +43,25 @@
         @endif
     </div>
 
+    <!-- Bootstrap JS nativo garantido via CDN (Evita dependência paralela do Vite para modais) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Automatically initialize toasts and SSE Global -->
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
+            // Se possivel, expor o bootstrap globalmente para as blades não falharem (Vite isolate prevention)
+            if(typeof bootstrap !== 'undefined' && !window.bootstrap) {
+                window.bootstrap = bootstrap;
+            }
+
             const toastElList = document.querySelectorAll('.toast');
             toastElList.forEach(toastEl => {
-                const toast = new bootstrap.Toast(toastEl);
-                toast.show();
+                if (typeof bootstrap !== 'undefined') {
+                    const toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                } else {
+                    toastEl.classList.add('show'); // Fallback visual
+                }
             });
 
             // Requisita permissão do navegador para notificações WebPush (Aba minimizada)
