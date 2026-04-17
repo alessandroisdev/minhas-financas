@@ -11,6 +11,7 @@
         <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('transactions.index', ['type' => 'expense']) }}">Despesas</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('transactions.index') }}">Extrato</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categorias</a></li>
+        <li class="nav-item"><a class="nav-link text-info" href="{{ route('documents.index') }}"><i class="bi bi-safe2"></i> Cofre</a></li>
         <li class="nav-item">
             <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#importModal">Conciliação</a>
         </li>

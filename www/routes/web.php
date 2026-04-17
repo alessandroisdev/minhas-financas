@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
     // Categorias
     Route::resource('categories', CategoryController::class)->except(['create', 'show', 'edit']);
 
+    // Módulo Arquivológico
+    Route::resource('documents', \App\Http\Controllers\DocumentController::class)->only(['index', 'store', 'destroy']);
+    Route::post('documents/{document}/download', [\App\Http\Controllers\DocumentController::class, 'download'])->name('documents.download');
+
     // Transacoes
     Route::resource('transactions', TransactionController::class)->except(['create', 'show', 'edit', 'update']);
     Route::post('transactions/{transaction}/pay', [TransactionController::class, 'markAsPaid'])->name('transactions.pay');
