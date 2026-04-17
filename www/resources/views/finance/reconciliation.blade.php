@@ -1,23 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<nav class="navbar navbar-expand-lg border-bottom" style="border-color: rgba(255,255,255,0.1) !important; background-color: rgba(0,0,0,0.1);">
-  <div class="container">
-    <a class="navbar-brand text-primary fw-bold" href="{{ route('dashboard') }}">Minhas Finanças</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-            <span class="nav-link">Olá, {{ Auth::user()->name }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+@include('layouts.navbar')
 
-<div class="container mt-5">
+<div class="container">
     <div class="row mb-4">
         <div class="col-12 d-flex justify-content-between align-items-center">
             <h2 class="fw-bold mb-0">Conciliação: {{ $import->filename }}</h2>

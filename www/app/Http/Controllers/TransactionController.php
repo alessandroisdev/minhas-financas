@@ -18,6 +18,9 @@ class TransactionController extends Controller
         $transactions = Transaction::where('user_id', Auth::id())
             ->whereMonth('date', $month)
             ->whereYear('date', $year)
+            ->when($request->has('type'), function($query) use ($request) {
+                return $query->where('type', $request->type);
+            })
             ->orderBy('date', 'desc')
             ->get();
             

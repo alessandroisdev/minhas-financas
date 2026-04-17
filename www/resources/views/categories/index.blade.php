@@ -1,37 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Reuse exactly the same navbar as index, this should be in a partial later. For simplicity: -->
-<nav class="navbar navbar-expand-lg border-bottom" style="border-color: rgba(255,255,255,0.1) !important; background-color: rgba(0,0,0,0.1);">
-  <div class="container">
-    <a class="navbar-brand text-primary fw-bold" href="{{ route('dashboard') }}">Minhas Finanças</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-            <span class="nav-link">Olá, {{ Auth::user()->name }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+@include('layouts.navbar')
 
-<div class="container mt-5">
+<div class="container">
     <div class="row">
         <!-- Sidebar Esquerda -->
         <div class="col-md-3">
-            <div class="card auth-card mb-4 border-0">
-                <div class="card-body">
-                    <h6 class="text-uppercase text-muted fw-bold small mb-3">Financeiro</h6>
-                    <div class="d-grid gap-2">
-                        <a href="{{ route('dashboard') }}" class="btn btn-outline-light text-start"><i class="bi bi-graph-up me-2"></i> Painel Geral</a>
-                        <a href="{{ route('transactions.index') }}" class="btn btn-outline-light text-start"><i class="bi bi-wallet2 me-2"></i> Transações</a>
-                        <a href="{{ route('categories.index') }}" class="btn btn-primary text-start"><i class="bi bi-tags me-2"></i> Categorias</a>
-                    </div>
-                </div>
-            </div>
+            @include('layouts.sidebar')
         </div>
 
         <div class="col-md-9">
