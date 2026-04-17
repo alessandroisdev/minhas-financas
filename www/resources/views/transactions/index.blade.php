@@ -88,7 +88,7 @@
 <!-- Modal Nova Transação -->
 <div class="modal fade" id="newTxModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content auth-card">
+    <div class="modal-content bg-dark border-0 shadow-lg" style="background-color: #0F172A !important;">
       <div class="modal-header border-bottom-0">
         <h5 class="modal-title fw-bold">Criar Transação</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>

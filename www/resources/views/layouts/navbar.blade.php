@@ -34,7 +34,7 @@
 <!-- Modal Global Conciliação (Para poder ser acionado de qualquer lugar da sidebar) -->
 <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content auth-card">
+    <div class="modal-content bg-dark border-0 shadow-lg" style="background-color: #0F172A !important;">
       <div class="modal-header border-bottom-0">
         <h1 class="modal-title fs-5 fw-bold" id="importModalLabel">Importar Transações</h1>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
