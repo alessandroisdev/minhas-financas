@@ -13,7 +13,9 @@
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categorias</a></li>
         <li class="nav-item"><a class="nav-link text-info" href="{{ route('documents.index') }}"><i class="bi bi-safe2"></i> Cofre</a></li>
         <li class="nav-item">
-            <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#importModal">Conciliação</a>
+            <a class="nav-link text-warning fw-bold" href="{{ route('reconciliation.index') }}">
+                <i class="bi bi-arrow-left-right"></i> Arena de Conciliação
+            </a>
         </li>
       </ul>
       

@@ -29,9 +29,24 @@ Route::middleware('auth')->group(function () {
     Route::post('documents/{document}/download', [\App\Http\Controllers\DocumentController::class, 'download'])->name('documents.download');
     Route::resource('document_folders', \App\Http\Controllers\DocumentFolderController::class)->only(['store', 'destroy']);
 
-    // Transacoes
+    // Transacoes e Conciliação
     Route::resource('transactions', TransactionController::class)->except(['create', 'show', 'edit', 'update']);
     Route::post('transactions/{transaction}/pay', [TransactionController::class, 'markAsPaid'])->name('transactions.pay');
+    
+    Route::post('bank-import', [\App\Http\Controllers\BankImportController::class, 'store'])->name('bank-import.store');
+
+    // Arena Kanban de Conciliação OFX
+    Route::get('reconciliation', [\App\Http\Controllers\BankReconciliationController::class, 'index'])->name('reconciliation.index');
+    Route::post('reconciliation/fast-create', [\App\Http\Controllers\BankReconciliationController::class, 'fastCreate'])->name('reconciliation.fastCreate');
+    Route::post('reconciliation/match', [\App\Http\Controllers\BankReconciliationController::class, 'match'])->name('reconciliation.match');
+
+    // Fechamento Contabil (ZIP Export)
+    Route::post('export-accounting', [\App\Http\Controllers\AccountingExportController::class, 'exportZip'])->name('accounting.export');
+
+    // Cartões de Crédito e Faturas (Upgrade 4.0)
+    Route::resource('credit-cards', \App\Http\Controllers\CreditCardController::class)->except(['create', 'edit', 'update', 'destroy']);
+    Route::post('credit-cards/{id}/transactions', [\App\Http\Controllers\CreditCardController::class, 'storeTransaction'])->name('credit-cards.storeTransaction');
+    Route::post('credit-cards/{id}/pay', [\App\Http\Controllers\CreditCardController::class, 'payInvoice'])->name('credit-cards.payInvoice');
 });
 
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request')->middleware('guest');

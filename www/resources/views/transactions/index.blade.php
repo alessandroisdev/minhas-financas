@@ -13,7 +13,17 @@
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold mb-0">Extrato ({{ $month }}/{{ $year }})</h2>
-                <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#newTxModal">+ Nova Transação</button>
+                <div class="d-flex gap-2">
+                    <form action="{{ route('accounting.export') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="month" value="{{ $month }}">
+                        <input type="hidden" name="year" value="{{ $year }}">
+                        <button class="btn btn-outline-warning fw-bold px-3" type="submit" title="Gera o Pacote Fiscal Criptografado (Planilha + Comprovantes OCR)">
+                            <i class="bi bi-file-earmark-zip"></i> Fechamento
+                        </button>
+                    </form>
+                    <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#newTxModal">+ Nova Transação</button>
+                </div>
             </div>
 
             <div class="card bg-dark border-0 shadow-lg">
