@@ -17,6 +17,27 @@ class FinanceController extends Controller
         $month = date('m');
         $year = date('Y');
 
+        // Fluxo Histórico 6 meses (Bar Chart)
+        $sixMonthsAgo = \Carbon\Carbon::now()->subMonths(5)->startOfMonth();
+        $flowData = \App\Models\Transaction::where('user_id', Auth::id())
+                        ->where('date', '>=', $sixMonthsAgo)
+                        ->selectRaw('DATE_FORMAT(date, "%Y-%m") as month_year, type, SUM(amount) as total')
+                        ->groupBy('month_year', 'type')
+                        ->orderBy('month_year')
+                        ->get();
+
+        // Despesas por Categoria no mes atual (Doughnut Chart)
+        $expensesByCategory = \App\Models\Transaction::where('user_id', Auth::id())
+                        ->where('type', 'expense')
+                        ->whereMonth('date', $month)->whereYear('date', $year)
+                        ->whereNotNull('category_id')
+                        ->selectRaw('category_id, SUM(amount) as total')
+                        ->groupBy('category_id')
+                        ->with('category')
+                        ->orderByDesc('total')
+                        ->get();
+
+        // Totais dos Cartões
         $incomes = \App\Models\Transaction::where('user_id', Auth::id())->where('type', 'income')
             ->whereMonth('date', $month)->whereYear('date', $year)->sum('amount');
             
@@ -25,7 +46,10 @@ class FinanceController extends Controller
             
         $balance = $incomes - $expenses;
 
-        return view('finance.index', compact('imports', 'incomes', 'expenses', 'balance'));
+        return view('finance.index', compact(
+            'imports', 'incomes', 'expenses', 'balance', 
+            'flowData', 'expensesByCategory'
+        ));
     }
 
     public function importStore(Request $request)
