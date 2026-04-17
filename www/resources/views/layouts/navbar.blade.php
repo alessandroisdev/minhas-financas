@@ -11,7 +11,8 @@
         <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('transactions.index', ['type' => 'expense']) }}">Despesas</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('transactions.index') }}">Extrato</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categorias</a></li>
-        <li class="nav-item"><a class="nav-link text-info" href="{{ route('documents.index') }}"><i class="bi bi-safe2"></i> Cofre</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('documents.index') }}"><i class="bi bi-safe2"></i> Cofre</a></li>
+        <li class="nav-item"><a class="nav-link text-info fw-bold" href="{{ route('credit-cards.index') }}"><i class="bi bi-credit-card"></i> Cartões</a></li>
         <li class="nav-item">
             <a class="nav-link text-warning fw-bold" href="{{ route('reconciliation.index') }}">
                 <i class="bi bi-arrow-left-right"></i> Arena de Conciliação
