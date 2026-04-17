@@ -23,7 +23,7 @@ class FinanceController extends Controller
         $expenses = \App\Models\Transaction::where('user_id', Auth::id())->where('type', 'expense')
             ->whereMonth('date', $month)->whereYear('date', $year)->sum('amount');
             
-        $balance = clone $incomes - $expenses; // Simplificado
+        $balance = $incomes - $expenses;
 
         return view('finance.index', compact('imports', 'incomes', 'expenses', 'balance'));
     }

@@ -5,14 +5,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto d-lg-none mt-3">
-        <li class="nav-item"><a class="nav-link fw-bold" href="{{ route('dashboard') }}">Painel Geral</a></li>
+      <ul class="navbar-nav me-auto mt-3 mt-lg-0">
+        <li class="nav-item"><a class="nav-link fw-bold" href="{{ route('dashboard') }}">Painel</a></li>
         <li class="nav-item"><a class="nav-link text-success fw-bold" href="{{ route('transactions.index', ['type' => 'income']) }}">Receitas</a></li>
         <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('transactions.index', ['type' => 'expense']) }}">Despesas</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('transactions.index') }}">Extrato Completo</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('transactions.index') }}">Extrato</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categorias</a></li>
         <li class="nav-item">
-            <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#importModal">Conciliação Bancária</a>
+            <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#importModal">Conciliação</a>
         </li>
       </ul>
       

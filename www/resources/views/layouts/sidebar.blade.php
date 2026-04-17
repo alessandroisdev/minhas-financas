@@ -1,4 +1,4 @@
-<div class="card bg-dark mb-4 border-0 shadow-lg d-none d-md-block" style="background-color: rgba(0,0,0,0.2) !important;">
+<div class="card bg-dark mb-4 border-0 shadow-lg" style="background-color: rgba(0,0,0,0.2) !important;">
     <div class="card-body p-4">
         <h6 class="text-uppercase text-muted fw-bold small mb-3">Financeiro</h6>
         <div class="d-grid gap-2">
