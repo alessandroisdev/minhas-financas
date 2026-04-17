@@ -1,5 +1,5 @@
-<div class="card auth-card mb-4 border-0">
-    <div class="card-body">
+<div class="card bg-dark mb-4 border-0 shadow-lg d-none d-md-block" style="background-color: rgba(0,0,0,0.2) !important;">
+    <div class="card-body p-4">
         <h6 class="text-uppercase text-muted fw-bold small mb-3">Financeiro</h6>
         <div class="d-grid gap-2">
             <a href="{{ route('dashboard') }}" class="btn {{ Route::is('dashboard') ? 'btn-primary' : 'btn-outline-light' }} text-start">

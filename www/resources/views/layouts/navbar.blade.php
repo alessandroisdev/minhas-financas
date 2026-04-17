@@ -5,14 +5,25 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav me-auto d-lg-none mt-3">
+        <li class="nav-item"><a class="nav-link fw-bold" href="{{ route('dashboard') }}">Painel Geral</a></li>
+        <li class="nav-item"><a class="nav-link text-success fw-bold" href="{{ route('transactions.index', ['type' => 'income']) }}">Receitas</a></li>
+        <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('transactions.index', ['type' => 'expense']) }}">Despesas</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('transactions.index') }}">Extrato Completo</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categorias</a></li>
+        <li class="nav-item">
+            <a class="nav-link text-warning" href="#" data-bs-toggle="modal" data-bs-target="#importModal">Conciliação Bancária</a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ms-auto border-top pt-2 mt-2 border-secondary d-lg-flex border-lg-0 pt-lg-0 mt-lg-0">
         <li class="nav-item">
             <span class="nav-link text-white-50"><i class="bi bi-person-circle text-primary"></i> Olá, {{ Auth::user()->name }}</span>
         </li>
-        <li class="nav-item ps-3">
+        <li class="nav-item ps-lg-3">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-outline-danger mt-1"><i class="bi bi-box-arrow-right"></i> Sair</button>
+                <button type="submit" class="btn btn-sm btn-outline-danger mt-1 w-100"><i class="bi bi-box-arrow-right"></i> Sair</button>
             </form>
         </li>
       </ul>
