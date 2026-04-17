@@ -16,7 +16,7 @@
                 <button class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#newTxModal">+ Nova Transação</button>
             </div>
 
-            <div class="card auth-card border-0">
+            <div class="card bg-dark border-0 shadow-lg">
                 <div class="card-body p-0">
                     <table class="table table-dark table-hover mb-0">
                         <thead class="small text-uppercase text-muted">
@@ -145,7 +145,7 @@
                               </select>
                           </div>
                           <div class="col-6">
-                              <input type="number" name="recurrence_installments" class="form-control form-control-sm" placeholder="Ocorrências" min="2" max="120">
+                              <input type="number" name="recurrence_installments" class="form-control form-control-sm" placeholder="Vazio = Indeterminado (Vitalício)" min="2" max="120">
                           </div>
                       </div>
                   </div>

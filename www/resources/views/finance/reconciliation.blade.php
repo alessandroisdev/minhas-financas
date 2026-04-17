@@ -18,7 +18,7 @@
     <div class="row">
         <!-- Pendentes -->
         <div class="col-md-7 mb-4">
-            <div class="card auth-card border-0">
+            <div class="card bg-dark border-0 shadow-lg" style="background-color: rgba(0,0,0,0.2) !important;">
                 <div class="card-header bg-transparent border-0 pt-4 pb-0">
                     <h5 class="fw-bold text-warning mb-0"><i class="bi bi-exclamation-triangle"></i> Atenção Requerida (Não Conciliados)</h5>
                     <p class="small text-muted mb-0">O sistema não encontrou transações exatas para estes itens do extrato.</p>
@@ -65,7 +65,7 @@
 
         <!-- Já Conciliados (Automático) -->
         <div class="col-md-5">
-            <div class="card auth-card border-0" style="opacity: 0.85;">
+            <div class="card bg-dark border-0 shadow-lg" style="background-color: rgba(0,0,0,0.2) !important; opacity: 0.85;">
                 <div class="card-header bg-transparent border-0 pt-4 pb-0">
                     <h5 class="fw-bold text-success mb-0"><i class="bi bi-check-circle"></i> Auto-Matching</h5>
                     <p class="small text-muted mb-0">Itens encontrados e ajustados pela IA.</p>

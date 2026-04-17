@@ -16,7 +16,7 @@
                 <button class="btn btn-primary fw-bold px-4" data-bs-toggle="modal" data-bs-target="#newCategoryModal">Nova Categoria</button>
             </div>
 
-            <div class="card auth-card border-0">
+            <div class="card bg-dark border-0 shadow-lg">
                 <div class="card-body p-0">
                     <table class="table table-dark table-hover mb-0">
                         <thead class="small text-uppercase text-muted">
@@ -65,7 +65,7 @@
 <!-- Modal Nova Categoria -->
 <div class="modal fade" id="newCategoryModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content auth-card">
+    <div class="modal-content bg-dark border-0 shadow-lg" style="background-color: #0F172A !important;">
       <div class="modal-header border-bottom-0">
         <h5 class="modal-title fw-bold">Criar Categoria</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>

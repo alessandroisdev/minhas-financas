@@ -54,8 +54,10 @@ class TransactionController extends Controller
         ]);
 
         // Gerar Recorrências Imediatamente
-        if ($request->filled('recurrence_type') && $request->filled('recurrence_installments')) {
-            $installments = (int) $request->recurrence_installments;
+        if ($request->filled('recurrence_type')) {
+            $isIndeterminate = !$request->filled('recurrence_installments');
+            $installments = $isIndeterminate ? 120 : (int) $request->recurrence_installments;
+            
             for ($i = 1; $i < $installments; $i++) {
                 $nextDate = clone $baseDate;
                 if ($request->recurrence_type == 'monthly') {
@@ -66,9 +68,11 @@ class TransactionController extends Controller
                     $nextDate->addYears($i);
                 }
 
+                $descSuffix = $isIndeterminate ? '' : " (" . ($i+1) . "/{$installments})";
+
                 Transaction::create([
                     'user_id' => Auth::id(),
-                    'description' => $request->description . " (" . ($i+1) . "/{$installments})",
+                    'description' => $request->description . $descSuffix,
                     'amount' => $request->amount,
                     'type' => $request->type,
                     'category_id' => $request->category_id,
