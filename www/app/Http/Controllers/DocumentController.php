@@ -9,52 +9,94 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Models\DocumentFolder;
 
 class DocumentController extends Controller
 {
+
     public function index(Request $request)
     {
-        $query = Document::where('user_id', Auth::id());
+        $currentFolderId = $request->get('folder_id'); // null equals root
         
-        // Agile Backend Search se necessário (O front fará em realtime via JS mas o backend suporta)
-        if ($request->has('q')) {
-            $query->where('title', 'like', '%' . $request->q . '%')
-                  ->orWhere('tags', 'like', '%' . $request->q . '%');
+        // Se pediu busca global agressive Frontend
+        $documentsQuery = Document::where('user_id', Auth::id());
+        $foldersQuery = DocumentFolder::where('user_id', Auth::id());
+        
+        if ($request->has('q') && !empty($request->q)) {
+            if ($request->get('search_type') == 'content') {
+                // OCR Fulltext Deep Search 
+                $documents = $documentsQuery->whereRaw("MATCH(title, content_text) AGAINST(? IN BOOLEAN MODE)", [$request->q . '*'])->get();
+            } else {
+                // Simple Title Search
+                $documents = $documentsQuery->where('title', 'like', '%' . $request->q . '%')->latest()->get();
+            }
+            $folders = collect(); // Normalmente esconde pastas na busca global pura ou exibe pastas com aquele nome
+        } else {
+            $documents = $documentsQuery->where('folder_id', $currentFolderId)->latest()->get();
+            $folders = $foldersQuery->where('parent_id', $currentFolderId)->orderBy('name')->get();
         }
 
-        $documents = $query->latest()->get();
-        return view('documents.index', compact('documents'));
+        // Parent tree for Breadcrumbs
+        $breadcrumbs = collect();
+        $tempFolder = $currentFolderId ? DocumentFolder::find($currentFolderId) : null;
+        while ($tempFolder) {
+            $breadcrumbs->prepend($tempFolder);
+            $tempFolder = $tempFolder->parent;
+        }
+
+        return view('documents.index', compact('documents', 'folders', 'currentFolderId', 'breadcrumbs'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'files.*' => 'required|file|max:10240', // Max 10MB
-            'title' => 'nullable|string|max:255',
-            'typology' => 'required|in:invoice,receipt,statement,contract,declaration,other',
-            'reference_date' => 'nullable|date',
+            'files.*' => 'required|file|max:51200', // Max 50MB
+            'paths.*' => 'nullable|string',
+            'current_folder_id' => 'nullable|exists:document_folders,id',
             'is_secured' => 'nullable|boolean',
         ]);
 
         if($request->hasFile('files')) {
-            foreach($request->file('files') as $file) {
-                // Arquivologia S3-like: armazenamento isolado na storage (não acessível publicamente no navegador)
+            $files = $request->file('files');
+            $paths = $request->input('paths', []);
+            $baseFolderId = $request->input('current_folder_id');
+
+            foreach($files as $index => $file) {
+                $relativePath = rtrim(isset($paths[$index]) && trim($paths[$index]) !== '' ? $paths[$index] : $file->getClientOriginalName(), '/');
+                $parts = explode('/', $relativePath);
+                
+                // Pop do final que é o nome do próprio arquivo
+                $fileName = array_pop($parts);
+                
+                // Reconstrói as pastas para descobrir o folder_id final
+                $parentFolderId = $baseFolderId;
+                foreach ($parts as $folderName) {
+                    $folder = DocumentFolder::firstOrCreate([
+                        'user_id' => Auth::id(),
+                        'name' => $folderName,
+                        'parent_id' => $parentFolderId
+                    ]);
+                    $parentFolderId = $folder->id;
+                }
+
                 $path = $file->store('documents/' . Auth::id(), 'local');
                 
-                Document::create([
+                $createdDoc = Document::create([
                     'user_id' => Auth::id(),
-                    'title' => $request->title ?: $file->getClientOriginalName(),
+                    'title' => $fileName,
                     'file_path' => $path,
                     'file_type' => $file->getClientMimeType(),
                     'file_size' => $file->getSize(),
-                    'typology' => $request->typology,
-                    'reference_date' => $request->reference_date,
+                    'folder_id' => $parentFolderId,
                     'is_secured' => $request->has('is_secured'),
                 ]);
+
+                // Dispara o Scanner Neural / PDF de extração no Background 
+                \App\Jobs\ProcessDocumentContent::dispatch($createdDoc);
             }
         }
 
-        return redirect()->route('documents.index')->with('status', 'Documento(s) arquivado(s) com sucesso!');
+        return redirect()->route('documents.index', ['folder_id' => $request->current_folder_id])->with('status', 'Envio de Árvore Concluído!');
     }
 
     public function download(Document $document, Request $request)

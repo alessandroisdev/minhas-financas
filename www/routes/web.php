@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     // Módulo Arquivológico
     Route::resource('documents', \App\Http\Controllers\DocumentController::class)->only(['index', 'store', 'destroy']);
     Route::post('documents/{document}/download', [\App\Http\Controllers\DocumentController::class, 'download'])->name('documents.download');
+    Route::resource('document_folders', \App\Http\Controllers\DocumentFolderController::class)->only(['store', 'destroy']);
 
     // Transacoes
     Route::resource('transactions', TransactionController::class)->except(['create', 'show', 'edit', 'update']);

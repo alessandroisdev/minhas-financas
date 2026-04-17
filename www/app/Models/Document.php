@@ -8,7 +8,7 @@ class Document extends Model
 {
     protected $fillable = [
         'user_id', 'title', 'file_path', 'file_type', 'file_size',
-        'typology', 'reference_date', 'transaction_id', 'tags', 'is_secured'
+        'folder_id', 'reference_date', 'transaction_id', 'tags', 'is_secured'
     ];
 
     protected $casts = [
@@ -20,6 +20,11 @@ class Document extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function folder()
+    {
+        return $this->belongsTo(DocumentFolder::class, 'folder_id');
     }
 
     public function transaction()
